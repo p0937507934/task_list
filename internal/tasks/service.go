@@ -58,9 +58,7 @@ func (s *TaskService) ListTasks() ([]*dto.ListTaskResponse, error) {
 
 func (s *TaskService) UpdateTask(req *dto.UpdateTaskRequest) (*dto.UpdateTaskResponse, error) {
 	task := &models.Tasks{
-		Id:     req.Id,
-		Name:   *req.Name,
-		Status: *req.Status,
+		Id: req.Id,
 	}
 	// check data exists
 	err := s.taskRepo.FindOne(task)
@@ -72,6 +70,8 @@ func (s *TaskService) UpdateTask(req *dto.UpdateTaskRequest) (*dto.UpdateTaskRes
 			return nil, custom_error.NewCustomError(500, err, "Update task error", req)
 		}
 	}
+	task.Name = *req.Name
+	task.Status = *req.Status
 	err = s.taskRepo.Update(task)
 	res := &dto.UpdateTaskResponse{
 		Id:     task.Id,

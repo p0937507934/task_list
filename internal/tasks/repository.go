@@ -53,5 +53,8 @@ func (r *TasksRepository) Delete(task *models.Tasks) error {
 
 func (r *TasksRepository) FindOne(task *models.Tasks) error {
 	result := r.orm.First(&task)
-	return result.Error
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
 }

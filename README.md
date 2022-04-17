@@ -61,4 +61,8 @@ DELETE 刪除
 <!-- 服務跑在 EC2 -->
 
 curl 35.175.150.170:8000/tasks
+
+swagger 
+
+http://35.175.150.170:8000/swagger/index.html
 ```

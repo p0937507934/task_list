@@ -1,0 +1,38 @@
+version: '3.6'
+
+services:
+  db:
+    image: mysql:8.0.28
+    container_name: mysql
+    restart: always
+    platform: linux/x86_64
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./migration:/docker-entrypoint-initdb.d"
+      - "~/var/data/mysql:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: task_list
+    networks:
+      - tasks
+
+  server:
+    build: .
+    container_name: server
+    working_dir: /server
+    ports:
+      - "8000:8000"
+    depends_on:
+      - "db"
+    environment:
+      - SERVER_PORT=8000
+      - DB_USERNAME=root
+      - DB_PASSWORD=secret
+      - DB_PORT=3306
+      - DB_NAME=task_list
+      - DB_HOST=db
+    networks:
+      - tasks
+networks:
+  tasks:

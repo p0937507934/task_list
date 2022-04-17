@@ -1,0 +1,163 @@
+definitions:
+  dto.CreateTaskRequest:
+    properties:
+      name:
+        type: string
+      status:
+        enum:
+        - 0
+        - 1
+        type: integer
+    required:
+    - name
+    type: object
+  dto.CreateTaskResponse:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: integer
+    type: object
+  dto.DeleteTaskRequest:
+    properties:
+      id:
+        type: integer
+    required:
+    - id
+    type: object
+  dto.ListTaskResponse:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: integer
+    type: object
+  dto.UpdateTaskRequest:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: integer
+    required:
+    - id
+    - name
+    - status
+    type: object
+info:
+  contact: {}
+paths:
+  /task:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: status 不傳為 0
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateTaskRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.CreateTaskResponse'
+        "400":
+          description: 參數錯誤
+          schema:
+            type: string
+        "500":
+          description: 內部錯誤
+          schema:
+            type: string
+      summary: Create task
+      tags:
+      - Task
+  /task/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: task id
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeleteTaskRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CreateTaskResponse'
+        "400":
+          description: 參數錯誤
+          schema:
+            type: string
+        "404":
+          description: 資料不存在
+          schema:
+            type: string
+        "500":
+          description: 內部錯誤
+          schema:
+            type: string
+      summary: Delete task
+      tags:
+      - Task
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 需要傳整個 task 的欄位
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateTaskRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CreateTaskResponse'
+        "400":
+          description: 參數錯誤
+          schema:
+            type: string
+        "404":
+          description: 資料不存在
+          schema:
+            type: string
+        "500":
+          description: 內部錯誤
+          schema:
+            type: string
+      summary: Update task
+      tags:
+      - Task
+  /tasks:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ListTaskResponse'
+      summary: List all tasks
+      tags:
+      - Task
+swagger: "2.0"

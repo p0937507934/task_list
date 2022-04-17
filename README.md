@@ -3,6 +3,7 @@
 採用 clean archtecture 架構, 使用 wire 當依賴注入
 
 使用方式
+如果因為 db 未啟動完成, 而造成 docker-compose server 啟動失敗, 請別介意等五秒再重新啟動一次, 這邊還沒加上 wait-for-it.sh 等機制
 ```
         git clone repo
         <!-- 啟動服務 -->
